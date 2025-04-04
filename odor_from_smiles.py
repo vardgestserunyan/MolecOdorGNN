@@ -94,7 +94,7 @@ class GraphNN(nn.Module):
             pred = self(minibatch)
             loss = loss_fcn(pred, y)
             sum_loss += loss
-            sum_f1 += f1_score(y.detach().numpy(), (pred.argmax(axis=1).detach()).numpy(), average='macro')
+            sum_f1 += f1_score(y.detach().numpy(), (pred.argmax(axis=1).detach()).numpy(), average='binary')
         avg_loss = sum_loss/len(input_batch)
         avg_f1 = sum_f1/len(input_batch)
         
