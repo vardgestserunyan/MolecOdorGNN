@@ -139,4 +139,3 @@ ax[1].plot(range(num_epochs), train_f1_agg)
 ax[1].plot(range(num_epochs), test_f1_agg)
 ax[1].legend(["Training Set", "Test Set"])
 
-fig.savefig("plot.pdf")
