@@ -10,7 +10,7 @@ import torch_geometric.transforms as tgtrans
 import torch.optim as toptim
 import pickle
 import torch.nn as nn
-from torch import manual_seed, tensor, float32, int64, long
+from torch import manual_seed, tensor, float32, int64, long, cat
 from sklearn.model_selection import train_test_split
 from sklearn.utils import compute_class_weight, class_weight
 from tqdm import tqdm
@@ -53,7 +53,7 @@ class GraphNN(nn.Module):
             graph_layers_list.append( (tgnn.norm.BatchNorm(graph_breadth), 'x -> x') )
             graph_layers_list.append( (nn.ReLU(inplace=True), 'x -> x') )
 
-        linear_layers_list = [nn.Linear(graph_breadth,lin_breadth),
+        linear_layers_list = [nn.Linear(graph_breadth*2,lin_breadth),
                               nn.ReLU(inplace=True)]
         for _ in range(lin_depth):
             linear_layers_list.append(nn.Linear(lin_breadth,lin_breadth))
@@ -63,7 +63,8 @@ class GraphNN(nn.Module):
 
 
         self.graph_layers = tgnn.Sequential('x, edge_index', graph_layers_list)
-        self.pooling = tgnn.pool.global_add_pool
+        self.add_pooling = tgnn.pool.global_add_pool
+        self.max_pooling = tgnn.pool.global_max_pool
         self.linear = nn.Sequential(*linear_layers_list)
         self.device = device
         self.to(device)
@@ -71,8 +72,9 @@ class GraphNN(nn.Module):
     def forward(self, minibatch):
         x, edge_index = (minibatch.x).to(float32), (minibatch.edge_index).to(int64)
         h_graph = self.graph_layers(x, edge_index)
-        h_pool = self.pooling(h_graph, minibatch.batch)
-        output = self.linear(h_pool)
+        h_addpool = self.add_pooling(h_graph, minibatch.batch)
+        h_maxpool = self.max_pooling(h_graph, minibatch.batch)
+        output = self.linear(cat([h_addpool,h_maxpool],1))
         return output
         
     def trainer(self, input_batch, loss_fcn, optimizer):
@@ -105,13 +107,13 @@ class GraphNN(nn.Module):
 
 
 batch_size, num_epochs, lr, weight_decay = 200, 100, 5e-4, 1e-4
-graph_breadth, graph_depth, lin_breadth, lin_depth, device = 64, 10, 64, 4, "cpu" 
+graph_breadth, graph_depth, lin_breadth, lin_depth, device = 128, 6, 128, 4, "cpu" 
 x_train_loader = tgloader.DataLoader( list(x_train), batch_size=batch_size, shuffle=True)
 x_test_loader = tgloader.DataLoader( list(x_test), batch_size=batch_size, shuffle=True)
 GraphNN_obj = GraphNN(graph_breadth, graph_depth, lin_breadth, lin_depth, device)
 loss_fcn = nn.CrossEntropyLoss(weight=tensor(class_weights, dtype=float32))
 optimizer = toptim.Adam(GraphNN_obj.parameters(), lr=lr, weight_decay=weight_decay)
-scheduler = toptim.lr_scheduler.StepLR(optimizer, step_size=10, gamma=0.2)
+scheduler = toptim.lr_scheduler.StepLR(optimizer, step_size=10, gamma=0.5)
 
 train_loss_agg, test_loss_agg = -1*np.ones(num_epochs), -1*np.ones(num_epochs)
 train_f1_agg, test_f1_agg = -1*np.ones(num_epochs), -1*np.ones(num_epochs)
