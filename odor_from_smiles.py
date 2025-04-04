@@ -87,17 +87,18 @@ class GraphNN(nn.Module):
 
     def tester(self, input_batch, loss_fcn):
         self.eval()
-        sum_loss, num_samples = 0, 0
+        sum_loss, sum_f1 = 0, 0
         for minibatch in input_batch:
             optimizer.zero_grad()
             y = (minibatch.y_apple).to(int64)
             pred = self(minibatch)
             loss = loss_fcn(pred, y)
             sum_loss += loss
-            num_samples += len(minibatch)
-        avg_loss = sum_loss/num_samples
+            sum_f1 += f1_score(y.detach().numpy(), (pred.argmax(axis=1).detach()).numpy(), average='macro')
+        avg_loss = sum_loss/len(input_batch)
+        avg_f1 = sum_f1/len(input_batch)
         
-        return avg_loss
+        return avg_loss, avg_f1
 
 
 
@@ -116,9 +117,10 @@ train_loss_agg, test_loss_agg = -1*np.ones(num_epochs), -1*np.ones(num_epochs)
 train_f1_agg, test_f1_agg = -1*np.ones(num_epochs), -1*np.ones(num_epochs)
 for epoch in tqdm(range(num_epochs), desc="Training Epochs", ncols=100):
      GraphNN_obj.trainer(x_train_loader, loss_fcn, optimizer)
-     train_loss = GraphNN_obj.tester(x_train_loader, loss_fcn)
-     test_loss = GraphNN_obj.tester(x_test_loader, loss_fcn)
+     train_loss, train_f1 = GraphNN_obj.tester(x_train_loader, loss_fcn)
+     test_loss, test_f1 = GraphNN_obj.tester(x_test_loader, loss_fcn)
      train_loss_agg[epoch], test_loss_agg[epoch] = train_loss, test_loss
+     train_f1_agg[epoch], test_f1_agg[epoch] = train_f1, test_f1
      scheduler.step()
 
 
@@ -132,5 +134,9 @@ fig, ax = plt.subplots(figsize=(12,6), nrows=1, ncols=2)
 ax[0].plot(range(num_epochs), train_loss_agg)
 ax[0].plot(range(num_epochs), test_loss_agg)
 ax[0].legend(["Training Set", "Test Set"])
+
+ax[1].plot(range(num_epochs), train_f1_agg)
+ax[1].plot(range(num_epochs), test_f1_agg)
+ax[1].legend(["Training Set", "Test Set"])
 
 fig.savefig("plot.pdf")
