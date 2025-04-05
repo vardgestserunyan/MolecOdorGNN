@@ -109,7 +109,7 @@ if __name__ == "__main__":
     class_weights = compute_class_weight(class_weight="balanced", classes=np.unique(y_train), y=y_train)
 
     batch_size, num_epochs, lr, weight_decay = 200, 100, 5e-4, 1e-4
-    graph_breadth, graph_depth, lin_breadth, lin_depth, device = 64, 10, 32, 3, "cpu" 
+    graph_breadth, graph_depth, lin_breadth, lin_depth, device = 128, 8, 64, 4, "cpu" 
     x_train_loader = tgloader.DataLoader( list(x_train), batch_size=batch_size, shuffle=True)
     x_test_loader = tgloader.DataLoader( list(x_test), batch_size=batch_size, shuffle=True)
     GraphNN_obj = GraphNN(graph_breadth, graph_depth, lin_breadth, lin_depth, device)
