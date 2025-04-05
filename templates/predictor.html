@@ -1,0 +1,24 @@
+<html>
+    <header>
+        <title> Apple Smell Predictor </title>
+    </header>
+
+    <body>
+        <form method="post" >
+            <textarea placeholder="Input SMILES strings, each on new line" name="smiles_input" rows="10" cols="25">{{data.user_input}}</textarea>
+            <button> Run Prediction </button>
+
+            {% if show_results %}
+            <div>
+                Results fetched on {{data.date}} at {{data.time}} <br>
+                Predictions as follows: <br>
+                {% for idx in range(data.prediction|length)%}
+                       {{data.smiles_input_list[idx]}} is predicted to be {{data.prediction[idx]}} <br>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+        </form>
+
+    </body>
+</html>

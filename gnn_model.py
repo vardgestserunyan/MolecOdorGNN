@@ -1,20 +1,39 @@
-from flask import Flask
-import torch_geometric.nn as tgnn
-import torch.nn as tnn
+from flask import Flask, render_template, request
+import torch_geometric.utils as tguitls
+import torch_geometric.loader as tgloader
+from datetime import datetime
+from odor_from_smiles import GraphNN
 import pickle
 
-
-gnn_app = Flask(__name__)
-
-@gnn_app.route('/model_api', methods=["POST"])
-def model_api():
-    pass
+app = Flask(__name__)
+with open('apple_odor_gnn.pkl', "rb") as file:
+    gnn_model = pickle.load(file)
 
 
-@gnn_app.route('/')
-def homepage():
-    return "bla"
+@app.route('/predictor', methods=["GET", "POST"])
+def predictor():
+    data, show_results = {}, False
+    if request.method == "POST":
+        smiles_input = request.form.get('smiles_input')
+        smiles_input_list = smiles_input.splitlines()
+        graph_obj_list = []
+        for line in smiles_input_list:
+            graph_obj = tguitls.from_smiles(line)
+            graph_obj_list.append(graph_obj)
+        graph_input_batch = tgloader.DataLoader(graph_obj_list, batch_size=len(graph_obj_list))
+        pred_logits = gnn_model( next(iter(graph_input_batch)) )
+        prediction = pred_logits.argmax(dim=1).tolist()
+        date, time = datetime.now().date(), datetime.now().time()
+        data = {'user_input': smiles_input,
+                'smiles_input_list':smiles_input_list,
+                'prediction':prediction,
+                'date':date,
+                'time':time
+                }
+        show_results = True
+    return render_template('/predictor.html', data=data, show_results=show_results)
+
 
 if __name__ == "__main__":
-    debug, host, port = True, "127.0.0.1", "8080"
-    gnn_app.run(debug=debug, host=host, port=port)
+    host, port, debug = "127.0.0.1", "8080", True
+    app.run(host=host, port=port, debug=debug)
