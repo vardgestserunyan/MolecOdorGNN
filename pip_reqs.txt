@@ -17,6 +17,7 @@ freetype-py @ file:///home/conda/feedstock_root/build_artifacts/freetype-py_1650
 frozenlist==1.5.0
 fsspec==2025.3.2
 greenlet @ file:///Users/runner/miniforge3/conda-bld/greenlet_1734532871631/work
+gunicorn==23.0.0
 idna==3.10
 itsdangerous==2.2.0
 Jinja2==3.1.6
