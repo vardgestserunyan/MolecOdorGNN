@@ -5,58 +5,36 @@ async-timeout==5.0.1
 attrs==25.3.0
 blinker==1.9.0
 certifi==2025.1.31
-chardet @ file:///home/conda/feedstock_root/build_artifacts/chardet_1741797914774/work
 charset-normalizer==3.4.1
 click==8.1.8
-contourpy @ file:///Users/runner/miniforge3/conda-bld/contourpy_1731428368116/work
-cycler @ file:///home/conda/feedstock_root/build_artifacts/cycler_1733332471406/work
 filelock==3.18.0
 Flask==3.1.0
-fonttools @ file:///Users/runner/miniforge3/conda-bld/fonttools_1738940364185/work
-freetype-py @ file:///home/conda/feedstock_root/build_artifacts/freetype-py_1650983368720/work
 frozenlist==1.5.0
 fsspec==2025.3.2
-greenlet @ file:///Users/runner/miniforge3/conda-bld/greenlet_1734532871631/work
 gunicorn==23.0.0
 idna==3.10
 itsdangerous==2.2.0
 Jinja2==3.1.6
 joblib==1.4.2
 kagglehub==0.3.10
-kiwisolver @ file:///Users/runner/miniforge3/conda-bld/kiwisolver_1725459273855/work
 MarkupSafe==3.0.2
 matplotlib==3.10.1
 mpmath==1.3.0
 multidict==6.2.0
 munkres==1.1.4
 networkx==3.4.2
-numpy @ file:///Users/runner/miniforge3/conda-bld/numpy_1742254848515/work/dist/numpy-2.2.4-cp310-cp310-macosx_11_0_arm64.whl#sha256=94a622e32fc67e411fa056c25a3a57569f22816dc86d5e6bce73f7a9fd739b12
-packaging @ file:///home/conda/feedstock_root/build_artifacts/packaging_1733203243479/work
-pandas @ file:///Users/runner/miniforge3/conda-bld/pandas_1726878435917/work
-pillow @ file:///Users/runner/miniforge3/conda-bld/pillow_1735929731714/work
 propcache==0.3.1
 psutil==7.0.0
 pycairo==1.27.0
-pyparsing @ file:///home/conda/feedstock_root/build_artifacts/pyparsing_1743089729650/work
-python-dateutil @ file:///home/conda/feedstock_root/build_artifacts/python-dateutil_1733215673016/work
-pytz @ file:///home/conda/feedstock_root/build_artifacts/pytz_1706886791323/work
 PyYAML==6.0.2
-rdkit @ file:///Users/runner/miniforge3/conda-bld/rdkit-meta_1740757883559/work
-reportlab @ file:///Users/runner/miniforge3/conda-bld/reportlab_1739375665929/work
 requests==2.32.3
-rlPyCairo @ file:///home/conda/feedstock_root/build_artifacts/rlpycairo_1687519531733/work
 scikit-learn==1.6.1
 scipy==1.15.2
-six @ file:///home/conda/feedstock_root/build_artifacts/six_1733380938961/work
-SQLAlchemy @ file:///Users/runner/miniforge3/conda-bld/sqlalchemy_1743109658702/work
 sympy==1.13.1
 threadpoolctl==3.6.0
 torch==2.6.0
 torch-geometric==2.6.1
 tqdm==4.67.1
-typing_extensions @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_typing_extensions_1743201626/work
-tzdata @ file:///home/conda/feedstock_root/build_artifacts/python-tzdata_1742745135198/work
-unicodedata2 @ file:///Users/runner/miniforge3/conda-bld/unicodedata2_1736692581912/work
 urllib3==2.3.0
 Werkzeug==3.1.3
 yarl==1.18.3
