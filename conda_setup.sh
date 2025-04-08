@@ -11,6 +11,5 @@ conda init bash
 source ~/.bashrc
 
 # Create and activate environment
-conda env create -f conda_env.yaml
-conda activate graph_molec  # Replace with your env name
+conda env create -f conda_env.yaml --name graph_molec && conda activate graph_molec 
 
