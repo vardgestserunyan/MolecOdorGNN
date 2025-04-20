@@ -8,9 +8,9 @@ COPY ./ ./
 
 # Create environment from environment.yaml
 RUN cat /app/environment.yaml
-RUN conda env create -f environment.yaml --name graph_molec
+RUN conda env create -f environment_lean.yaml --name graph_molec_lean
 
-CMD ["bash", "-c", "source activate graph_molec && exec python3 gnn_model.py"]
+CMD ["bash", "-c", "source activate graph_molec_lean && exec python3 gnn_model.py"]
 
 
 
