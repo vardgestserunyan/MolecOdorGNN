@@ -36,5 +36,5 @@ def api_predictor():
     return jsonify(data)
 
 if __name__ == "__main__":
-    host, port, debug = "127.0.0.1", "8080", True
+    host, port, debug = "0.0.0.0", "8080", True
     app.run(host=host, port=port, debug=debug)
