@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 from datetime import datetime
 from utils import gnn_runner
+import os 
 
 
 app = Flask(__name__)
@@ -37,4 +38,5 @@ def api_predictor():
 
 if __name__ == "__main__":
     host, port, debug = "0.0.0.0", "8080", True
+    port = int(os.environ.get("PORT", 8080))
     app.run(host=host, port=port, debug=debug)

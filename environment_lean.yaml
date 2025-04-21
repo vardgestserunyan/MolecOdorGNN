@@ -8,7 +8,7 @@ dependencies:
   - pip=25.0.1
   - rdkit=2024.09.6
   - pip:
-      - pandas=2.2.3
+      - pandas==2.2.3
       - docker==7.1.0
       - kagglehub==0.3.10
       - scikit-learn==1.6.1

@@ -16,7 +16,7 @@ from sklearn.utils import compute_class_weight, class_weight
 from tqdm import tqdm
 import matplotlib.pyplot as plt
 from sklearn.metrics import f1_score
-
+# kagglehub pandas torch torch-geometric scikit-learn  matplotlib flask
 
 # Define the model
 class GraphNN(nn.Module):
